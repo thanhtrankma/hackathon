@@ -1,12 +1,23 @@
 import { PhoneOutlined } from "@ant-design/icons";
 import { Avatar, Button, Modal, Space, Spin } from "antd";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 function PopupCall({ isVisible, setIsVisible, name }) {
   const nameSplit = name && name.split(" ");
+  const [hideMessBusy, setHideMessBusy] = useState(false);
   const handleEndCall = () => {
     setIsVisible(false)
+    setHideMessBusy(false);
   }
+
+  useEffect(() => {
+    if (!isVisible) return;
+    const pendingCallTimeOut = setTimeout(() => {
+      setHideMessBusy(true);
+    }, [5000]);
+    return () => clearTimeout(pendingCallTimeOut);
+  }, [isVisible])
+
   return (
     <Modal
       visible={isVisible}
@@ -43,7 +54,7 @@ function PopupCall({ isVisible, setIsVisible, name }) {
           </Avatar>
           <p>Đang gọi khách hàng:</p>
           <p>{name}</p>
-          <Spin />
+          {hideMessBusy ? <p style={{color: 'red'}}>Khách hàng không nghe máy</p> : <Spin />}   
         </Space>
       </Space>
       <div>

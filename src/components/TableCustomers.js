@@ -11,7 +11,7 @@ function TableCustomers({ dataTable, loading }) {
   const [isVisibleSendModal, setIsVisibleSendModal] = useState(false);
   const [name, setName] = useState('');
   const [typeSend, setTypeSend] = useState();
-
+  
   const handleClickCall = (record) => {
     setIsVisible(true);
     setName(record?.fullName);
@@ -75,7 +75,6 @@ function TableCustomers({ dataTable, loading }) {
   ];
 
   const onSelectChange = (newSelectedRowKeys) => {
-    console.log("selectedRowKeys changed: ", selectedRowKeys);
     setSelectedRowKeys(newSelectedRowKeys);
   };
   const handleClickSendZalo = () => {

@@ -39,7 +39,7 @@ function Navbar() {
               <Image
                 src={"https://homefoodshop.vn/_nuxt/img/logo.95aac45.svg"}
                 preview={false}
-                height={32}
+                height={36}
               />
             </div>
 
