@@ -1,6 +1,6 @@
-import { Col, Row, Form, DatePicker, Input, Select, Button } from "antd";
-import React from "react";
 import { SearchOutlined } from "@ant-design/icons";
+import { Col, DatePicker, Form, Input, Row, Select } from "antd";
+import React from "react";
 
 function SearchInput({setTypeCustomer, setGroupCustomer}) {
   const listTypeCustomer = [

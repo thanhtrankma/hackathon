@@ -1,16 +1,21 @@
 import { MailOutlined, PhoneOutlined } from "@ant-design/icons";
-import { Button, Image, Input, message, Modal, Table, Typography } from "antd";
+import { Button, Image, Table } from "antd";
 import React, { useState } from "react";
 import logoZalo from "../images/zalo.jpg";
 import PopupCall from "./PopupCall";
+import PopupSendMessage from "./PopupSendMessage";
 
 function TableCustomers({ dataTable, loading }) {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [isVisible, setIsVisible] = useState(false);
   const [isVisibleSendModal, setIsVisibleSendModal] = useState(false);
-  const [name, setName] = useState();
+  const [name, setName] = useState('');
   const [typeSend, setTypeSend] = useState();
-  const [toggle, setToggle] = useState(true);
+
+  const handleClickCall = (record) => {
+    setIsVisible(true);
+    setName(record?.fullName);
+  }
 
   const columns = [
     {
@@ -56,17 +61,13 @@ function TableCustomers({ dataTable, loading }) {
     },
     {
       title: "Thao tác",
-      dataIndex: "address",
       render: (text, record) => (
         <div className="flex justify-center">
           <Button
             type="text"
             shape="circle"
             icon={<PhoneOutlined />}
-            onClick={() => {
-              setIsVisible(true);
-              setName(record?.fullName);
-            }}
+            onClick={() => handleClickCall(record)}
           />
         </div>
       ),
@@ -122,55 +123,7 @@ function TableCustomers({ dataTable, loading }) {
         setIsVisible={setIsVisible}
         name={name}
       />
-      <Modal
-        title={`Gửi ${typeSend}`}
-        visible={isVisibleSendModal}
-        onOk={() => {
-          setIsVisibleSendModal(false);
-          message.success(`Gửi ${typeSend} thành công`);
-        }}
-        onCancel={() => setIsVisibleSendModal(false)}
-        okText="Gửi"
-        cancelText="Hủy"
-      >
-        Người nhận: {''}
-        {selectedRowKeys.length > 5 ? (
-          <div>
-            <Typography.Text strong>
-              {selectedRowKeys.slice(0, 5).join("; ")}
-            </Typography.Text>
-            <Typography.Text
-              className="cursor-pointer"
-              strong
-              onClick={() => setToggle((t) => !t)}
-            >
-              {toggle
-                ? ` và ${
-                    selectedRowKeys.slice(5, selectedRowKeys.length).length
-                  } người khác`
-                : `; ${selectedRowKeys
-                    .slice(5, selectedRowKeys.length)
-                    .join("; ")}`}
-            </Typography.Text>
-          </div>
-        ) : (
-          <Typography.Text strong>
-            {selectedRowKeys.slice(0, 5).join("; ")}
-          </Typography.Text>
-        )}
-        {selectedRowKeys.length === 0 && (
-          <Typography.Text>
-            <i>Chưa có người nhận</i>
-          </Typography.Text>
-        )}
-        <div className="mt-4">
-          <Input.TextArea
-            autoSize={{ minRows: 3, maxRows: 6 }}
-            placeholder="Nhập..."
-            allowClear
-          />
-        </div>
-      </Modal>
+      <PopupSendMessage typeSend={typeSend} isVisibleSendModal={isVisibleSendModal} setIsVisibleSendModal={setIsVisibleSendModal} selectedRowKeys={selectedRowKeys} />
     </div>
   );
 }

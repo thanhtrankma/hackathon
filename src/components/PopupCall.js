@@ -1,8 +1,12 @@
-import { PhoneOutlined, UserOutlined } from "@ant-design/icons";
+import { PhoneOutlined } from "@ant-design/icons";
 import { Avatar, Button, Modal, Space, Spin } from "antd";
 import React from "react";
 
 function PopupCall({ isVisible, setIsVisible, name }) {
+  const nameSplit = name && name.split(" ");
+  const handleEndCall = () => {
+    setIsVisible(false)
+  }
   return (
     <Modal
       visible={isVisible}
@@ -15,7 +19,7 @@ function PopupCall({ isVisible, setIsVisible, name }) {
             <Button
               className="text-white bg-red-500"
               icon={<PhoneOutlined className="text-base" />}
-              onClick={() => setIsVisible(false)}
+              onClick={handleEndCall}
             >
               Kết thúc
             </Button>
@@ -31,7 +35,12 @@ function PopupCall({ isVisible, setIsVisible, name }) {
           size="small"
           className="flex flex-col items-center justify-center pt-10 pb-20"
         >
-          <Avatar size={100} icon={<UserOutlined />} />
+          <Avatar
+            style={{ backgroundColor: "#f56a00", fontSize: 36 }}
+            size={100}
+          >
+            {name && nameSplit[nameSplit?.length - 1][0]}
+          </Avatar>
           <p>Đang gọi khách hàng:</p>
           <p>{name}</p>
           <Spin />
